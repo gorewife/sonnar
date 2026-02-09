@@ -24,7 +24,7 @@ const showModal = ref(false);
       <!-- Content -->
       <section class="content">
         <p>
-          Homero vas a recoltalte
+          test
         </p>
       </section>
     </div>
