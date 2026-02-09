@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { invoke } from "@tauri-apps/api/core";
+// import { invoke } from "@tauri-apps/api/core";
 import downloadModal from "./components/downloadModal.vue";
 
 
@@ -52,9 +52,16 @@ const showModal = ref(false);
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+  height: 100;
 
-  color: #0f0f0f;
-  background-color: #f6f6f6;
+  --color-bg: #0b1117;
+  --color-text: #ff7c72;
+  --color-highlight: #79c0ff;
+  --color-border: #1f2a37;
+  --color-surface: #0f141b;
+
+  color: var(--color-text);
+  background-color: var(--color-bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -65,33 +72,43 @@ const showModal = ref(false);
 
 .container {
   margin: 0;
-  padding-top: 10vh;
+  padding-top: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
-
-.row {
+.app-layout {
   display: flex;
-  justify-content: center;
+  height: 100%;
 }
 
+.content {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.sidebar {
+  width: 64px;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+/* links & highlights */
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--color-highlight);
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #535bf2;
+  text-decoration: underline;
 }
 
 h1 {
@@ -101,15 +118,16 @@ h1 {
 input,
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid var(--color-border);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  color: #0f0f0f;
-  background-color: #ffffff;
-  transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+
+  color: var(--color-text);
+  background-color: var(--color-surface);
+
+  transition: border-color 0.25s, background-color 0.25s;
 }
 
 button {
@@ -117,11 +135,15 @@ button {
 }
 
 button:hover {
-  border-color: #396cd8;
+  border-color: var(--color-highlight);
 }
+
 button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
+  background-color: rgba(121, 192, 255, 0.1);
+}
+
+input::placeholder {
+  opacity: 0.6;
 }
 
 input,
@@ -132,25 +154,4 @@ button {
 #greet-input {
   margin-right: 5px;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #0b1117;
-  }
-
-  a:hover {
-    color: #24c8db;
-  }
-
-  input,
-  button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
-  }
-  button:active {
-    background-color: #0f0f0f69;
-  }
-}
-
 </style>

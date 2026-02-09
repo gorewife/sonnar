@@ -38,28 +38,51 @@ function enter() {
 
 <template>
   <Transition name="modal">
-    <div v-if="show" class="modal-mask">
-      <div class="modal-container">
+    <div v-if="show" class="modal-backdrop" @click="cancel">
+      <div class="modal-dialog" @click.stop>
 
-        <div class="modal-header">
+        <header class="modal-header">
           <h3>Enter download link</h3>
-        </div>
+        </header>
 
-        <div class="modal-body">
+        <section class="modal-body">
           <input
             v-model="downloadLink"
             placeholder="Download Link..."
             @keyup.enter="enter"
           />
-            <button @click="chooseDir" title="Select a directory">📁</button>
-        </div>
+            <button
+            @click="chooseDir" 
+            title="Select a directory"
+          >📁</button>
+        </section>
 
-        <div class="modal-footer">
+        <footer class="modal-footer">
           <button @click="cancel">Cancel</button>
           <button :disabled="!downloadLink" @click="enter">Enter</button>
-        </div>
+        </footer>
 
       </div>
     </div>
   </Transition>
 </template>
+
+<style>
+.modal-backdrop {
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 17, 23, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.modal-dialog {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+</style>
