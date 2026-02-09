@@ -1,48 +1,48 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import downloadModal from "./components/downloadModal.vue";
 
-const greetMsg = ref("");
-const name = ref("");
 
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+const downloadLink = ref("");
+const showModal = ref(false);
+
+/* async function greet() {
   greetMsg.value = await invoke("greet", { name: name.value });
-}
+} */
+
 </script>
 
 <template>
   <main class="container">
-    <h1>Welcome to Tauri + Vue</h1>
+    <div class="app-layout">
+    <!-- Sidebar -->
+      <aside class="sidebar">
+        <button class="add-btn" @click="showModal = true">+</button>
+      </aside>
 
-    <div class="row">
-      <a href="https://vite.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
+      <!-- Content -->
+      <section class="content">
+        <p>
+          Homero vas a recoltalte
+        </p>
+      </section>
     </div>
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
-
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ greetMsg }}</p>
   </main>
+
+  <!-- Modal -->
+   <Teleport to="body">
+    <downloadModal
+      :show="showModal"
+      @close="showModal = false"
+      @submit="downloadLink = $event"
+    />
+   </Teleport>
 </template>
 
 <style scoped>
-.logo.vite:hover {
+.add-btn:hover {
   filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
 }
 
 </style>
@@ -77,10 +77,6 @@ async function greet() {
   padding: 1.5em;
   will-change: filter;
   transition: 0.75s;
-}
-
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
 }
 
 .row {
@@ -140,7 +136,7 @@ button {
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
-    background-color: #2f2f2f;
+    background-color: #0b1117;
   }
 
   a:hover {
