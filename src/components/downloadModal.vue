@@ -54,7 +54,9 @@ function enter() {
             <button
             @click="chooseDir" 
             title="Select a directory"
-          >📁</button>
+            >
+            <font-awesome-icon icon="folder" />
+            </button>
         </section>
 
         <footer class="modal-footer">
