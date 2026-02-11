@@ -18,14 +18,20 @@ const showModal = ref(false);
     <div class="app-layout">
     <!-- Sidebar -->
       <aside class="sidebar">
-        <button class="add-btn" @click="showModal = true">+</button>
+        <button class="add-btn" @click="showModal = true">
+          <font-awesome-icon icon="plus" />
+        </button>
+
+        <button class="set-btn">
+          <font-awesome-icon icon="gear" />
+        </button>
       </aside>
 
       <!-- Content -->
       <section class="content">
-        <p>
-          test
-        </p>
+        <h1>
+          Sonnar
+        </h1>
       </section>
     </div>
   </main>
@@ -42,9 +48,13 @@ const showModal = ref(false);
 
 <style scoped>
 .add-btn:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+  filter: drop-shadow(1 1 1em #747bff);
 }
 
+.set-btn {
+  margin-top: auto;
+  margin-bottom: 2vh;
+}
 </style>
 <style>
 :root {
@@ -52,7 +62,7 @@ const showModal = ref(false);
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-  height: 100;
+  height: 100%;
 
   --color-bg: #0b1117;
   --color-text: #ff7c72;
@@ -70,18 +80,19 @@ const showModal = ref(false);
   -webkit-text-size-adjust: 100%;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 .container {
   margin: 0;
-  padding-top: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
+  padding: 0;
 }
 
 .app-layout {
   display: flex;
-  height: 100%;
+  min-height: 100vh;
 }
 
 .content {
@@ -90,9 +101,9 @@ const showModal = ref(false);
 }
 
 .sidebar {
-  width: 64px;
+  width: 10vw;
   background-color: var(--color-surface);
-  border-right: 1px solid var(--color-border);
+  border-right: 4px solid var(--color-border);
 
   display: flex;
   flex-direction: column;
@@ -117,7 +128,7 @@ h1 {
 
 input,
 button {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid var(--color-border);
   padding: 0.6em 1.2em;
   font-size: 1em;
