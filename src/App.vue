@@ -16,7 +16,7 @@ const showModal = ref(false);
 <template>
   <main class="container">
     <div class="app-layout">
-    <!-- Sidebar -->
+      <!-- Sidebar -->
       <aside class="sidebar">
         <button class="add-btn" @click="showModal = true">
           <font-awesome-icon icon="plus" />
@@ -37,13 +37,9 @@ const showModal = ref(false);
   </main>
 
   <!-- Modal -->
-   <Teleport to="body">
-    <downloadModal
-      :show="showModal"
-      @close="showModal = false"
-      @submit="downloadLink = $event"
-    />
-   </Teleport>
+  <Teleport to="body">
+    <downloadModal :show="showModal" @close="showModal = false" @submit="downloadLink = $event" />
+  </Teleport>
 </template>
 
 <style scoped>
@@ -80,7 +76,8 @@ const showModal = ref(false);
   -webkit-text-size-adjust: 100%;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -109,6 +106,24 @@ html, body {
   flex-direction: column;
   align-items: center;
   padding-top: 1rem;
+}
+
+/* modals */
+.modal-backdrop {
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 17, 23, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.modal-dialog {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 1.5rem;
 }
 
 /* links & highlights */
