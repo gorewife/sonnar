@@ -101,7 +101,7 @@ html, body {
 }
 
 .sidebar {
-  width: 10vw;
+  width: 9vw;
   background-color: var(--color-surface);
   border-right: 4px solid var(--color-border);
 
