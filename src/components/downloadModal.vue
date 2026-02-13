@@ -46,17 +46,10 @@ function enter() {
         </header>
 
         <section class="modal-body">
-          <input
-            v-model="downloadLink"
-            placeholder="Download Link..."
-            @keyup.enter="enter"
-          />
-            <button
-            @click="chooseDir" 
-            title="Select a directory"
-            >
+          <input v-model="downloadLink" placeholder="Download Link..." @keyup.enter="enter" />
+          <button @click="chooseDir" title="Select a directory">
             <font-awesome-icon icon="folder" />
-            </button>
+          </button>
         </section>
 
         <footer class="modal-footer">
@@ -69,22 +62,4 @@ function enter() {
   </Transition>
 </template>
 
-<style>
-.modal-backdrop {
-  display: grid;
-  place-items: center;
-  z-index: 1000;
-
-  position: fixed;
-  inset: 0;
-  background: rgba(11, 17, 23, 0.75);
-  backdrop-filter: blur(6px);
-}
-
-.modal-dialog {
-  background: var(--color-surface);
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-</style>
+<style></style>
