@@ -2,7 +2,7 @@ use reqwest;
 
 pub trait Url {
     fn host(&self) -> Option<&str>;
-        fn full_string(&self) -> &str;
+    fn full_string(&self) -> &str;
 }
 
 struct ReqwestUrl(reqwest::Url)
