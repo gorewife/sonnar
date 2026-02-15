@@ -3719,6 +3719,8 @@ dependencies = [
 name = "sonnar"
 version = "0.1.0"
 dependencies = [
+ "futures-lite",
+ "hyper",
  "reqwest",
  "serde",
  "serde_json",
@@ -3727,6 +3729,7 @@ dependencies = [
  "tauri-plugin-dialog",
  "tauri-plugin-opener",
  "thiserror 2.0.18",
+ "tokio",
 ]
 
 [[package]]

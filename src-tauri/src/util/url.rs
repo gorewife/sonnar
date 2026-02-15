@@ -5,7 +5,7 @@ pub trait Url {
     fn full_string(&self) -> &str;
 }
 
-struct ReqwestUrl(reqwest::Url);
+pub struct ReqwestUrl(reqwest::Url);
 
 impl ReqwestUrl {
     #[inline]
