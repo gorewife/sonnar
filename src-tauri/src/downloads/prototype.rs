@@ -1,16 +1,9 @@
-use std::path::{
-    Path,
-    PathBuf,
-};
-use std::io::{Bytes, Result as IoResult};
+use std::path::Path;
+use std::io::Result as IoResult;
 use futures_lite::stream::StreamExt;
-use reqwest::{Client, Response, Error as ReqError};
+use reqwest::{Client, Response};
 use tokio::{
-    fs::{
-        File,
-        OpenOptions,
-        write,
-    },
+    fs::OpenOptions,
     io::AsyncWriteExt,
 };
 use tauri::ipc::Channel;
@@ -41,7 +34,7 @@ impl  Prototype {
             buffer.as_path().to_owned()
         };
         
-        let mut file_open = OpenOptions::new()
+        let file_open = OpenOptions::new()
                 .append(true)
                 .create(true)
                 .open(file_path)
@@ -70,7 +63,7 @@ impl  Prototype {
                             byte_counter += len;
                             let progress = DownloadEvent::Progress{
                                 id,
-                                current_byte: byte_counter.clone(),
+                                current_byte: byte_counter,
                             };
                             chan.send(progress).unwrap();
                         },
@@ -93,7 +86,7 @@ impl  Downloader<ReqwestUrl> for Prototype {
         true
     }
     
-    async fn start_download<'a>(&self, id: u64, url: &ReqwestUrl, path: &'a Path, chan: Channel<DownloadEvent>) -> Result<(), DownloadError> {
+    async fn start_download(&self, id: u64, url: &ReqwestUrl, path: &Path, chan: Channel<DownloadEvent>) -> Result<(), DownloadError> {
         let response: Result<Response, reqwest::Error> = self.client.get(url.inner())
             .send()
             .await;

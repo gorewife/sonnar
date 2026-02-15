@@ -25,7 +25,7 @@ pub enum DownloadError {
 
 #[derive(Clone, Serialize)]
 #[serde(rename_all = "camelCase", rename_all_fields = "camelCase", tag = "status", content = "content")]
-enum DownloadEvent {
+pub enum DownloadEvent {
     Started {
         id: u64,
         url: String,
