@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
-// import { invoke } from "@tauri-apps/api/core";
-import DownloadModal from "@/components/modals/DownloadModal.vue";
+import { useUIStore } from '@/stores/UIStore'
 
+import Sidebar from '@/components/Sidebar.vue'
+import DownloadModal from '@/components/modals/DownloadModal.vue'
 
-const downloadLink = ref("");
-const showModal = ref(false);
-
+const ui = useUIStore()
 </script>
 
 <template>
@@ -14,40 +12,22 @@ const showModal = ref(false);
     <div class="app-layout">
       <!-- Sidebar -->
       <aside class="sidebar">
-        <button class="add-btn" @click="showModal = true">
-          <font-awesome-icon icon="plus" />
-        </button>
-
-        <button class="set-btn">
-          <font-awesome-icon icon="gear" />
-        </button>
+        <Sidebar />
       </aside>
 
       <!-- Content -->
       <section class="content">
-        <h1>
-          Sonnar
-        </h1>
+        <h1>Sonnar</h1>
       </section>
     </div>
   </main>
 
   <!-- Modal -->
   <Teleport to="body">
-    <downloadModal :show="showModal" @close="showModal = false" @submit="downloadLink = $event" />
+    <DownloadModal v-if="ui.isOpen('download')" @close="ui.closeModal()" />
   </Teleport>
 </template>
 
-<style scoped>
-.add-btn:hover {
-  filter: drop-shadow(1 1 1em #747bff);
-}
-
-.set-btn {
-  margin-top: auto;
-  margin-bottom: 2vh;
-}
-</style>
 <style>
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
