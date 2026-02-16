@@ -25,3 +25,6 @@ impl Url for ReqwestUrl{
     }
 }
 
+pub trait UrlParser<T: Url> {
+    fn parse(url: String) -> T;
+}
