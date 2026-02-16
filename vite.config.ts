@@ -1,8 +1,13 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from "url";
 
-// @ts-expect-error process is a nodejs global
+// ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig(async () => ({
@@ -29,4 +34,9 @@ export default defineConfig(async () => ({
       ignored: ["**/src-tauri/**"],
     },
   },
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
+    }
+  }
 }));

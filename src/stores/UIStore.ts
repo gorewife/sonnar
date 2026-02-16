@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export type ModalName = 'newDownload' | 'settings' | 'confirm' | null
+export type ModalName = string | null
 
 export const useUIStore = defineStore('ui', () => {
   const activeModal = ref<ModalName>(null)
-  const modalProps = ref<Record<string, any>>({})
+  const modalProps = ref<Record<string, unknown>>({})
 
-  function openModal(name: ModalName, props = {}) {
+  function openModal(name: string, props: Record<string, unknown> = {}) {
     activeModal.value = name
     modalProps.value = props
   }
@@ -17,5 +17,14 @@ export const useUIStore = defineStore('ui', () => {
     modalProps.value = {}
   }
 
-  return { activeModal, modalProps, openModal, closeModal }
+  const isOpen = (name: string) =>
+    activeModal.value === name
+
+  return {
+    activeModal,
+    modalProps,
+    openModal,
+    closeModal,
+    isOpen
+  }
 })

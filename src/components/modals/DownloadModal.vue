@@ -1,20 +1,22 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { open } from '@tauri-apps/plugin-dialog'
+import { useUIStore } from '@/stores/UIStore'
 
-const props = defineProps({ show: Boolean })
-const emit = defineEmits(['close', 'submit'])
+const ui = useUIStore()
 
 const downloadLink = ref('')
 const downloadDir = ref('')
 
+// load saved download directory
 onMounted(() => {
   const saved = localStorage.getItem('downloadDir')
   if (saved) downloadDir.value = saved
 })
 
-watch(() => props.show, (newVal) => {
-  if (newVal && !downloadDir.value) downloadDir.value = ''
+// reset link when modal opens
+watch(() => ui.activeModal, (newVal) => {
+  if (newVal === 'download') downloadLink.value = ''
 })
 
 async function chooseDir() {
@@ -26,21 +28,24 @@ async function chooseDir() {
 }
 
 function cancel() {
-  emit('close')
+  ui.closeModal()
 }
 
 function enter() {
   if (!downloadLink.value) return
-  emit('submit', downloadLink.value)
-  emit('close')
+
+  console.log('Download submitted:', downloadLink.value)
+  // TODO: call downloads store / trigger actual download here
+
+  ui.closeModal()
+  downloadLink.value = '' // reset
 }
 </script>
 
 <template>
   <Transition name="modal">
-    <div v-if="show" class="modal-backdrop" @click="cancel">
+    <div v-if="ui.isOpen('download')" class="modal-backdrop" @click="cancel">
       <div class="modal-dialog" @click.stop>
-
         <header class="modal-header">
           <h3>Enter download link</h3>
         </header>
@@ -56,10 +61,7 @@ function enter() {
           <button @click="cancel">Cancel</button>
           <button :disabled="!downloadLink" @click="enter">Enter</button>
         </footer>
-
       </div>
     </div>
   </Transition>
 </template>
-
-<style></style>
