@@ -1,7 +1,11 @@
 use std::path::Path;
 use std::io::Result as IoResult;
 use futures_lite::stream::StreamExt;
-use reqwest::{Client, Response};
+use reqwest::{
+    Client, 
+    Response,
+    Url as ReqwestUrl,
+};
 use tokio::{
     fs::OpenOptions,
     io::AsyncWriteExt,
@@ -14,7 +18,7 @@ use super::{
     DownloadError,
 };
 
-use crate::util::url::{Url, ReqwestUrl};
+use crate::util::url::Url;
 
 pub struct Prototype {
     client: Client,
@@ -87,7 +91,7 @@ impl  Downloader<ReqwestUrl> for Prototype {
     }
     
     async fn start_download(&self, id: u64, url: &ReqwestUrl, path: &Path, chan: Channel<DownloadEvent>) -> Result<(), DownloadError> {
-        let response: Result<Response, reqwest::Error> = self.client.get(url.inner())
+        let response: Result<Response, reqwest::Error> = self.client.get(url.to_owned())
             .send()
             .await;
         match response {
