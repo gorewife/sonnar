@@ -16,6 +16,8 @@ impl Url for ReqwestUrl{
     }
 }
 
+pub struct ParseError(String);
+
 pub trait UrlParser<T: Url> {
-    fn parse(url: String) -> T;
+    fn parse(url: String) -> Result<T, ParseError>;
 }
