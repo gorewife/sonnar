@@ -1,4 +1,6 @@
-use reqwest::Url as ReqwestUrl;
+use thiserror::Error;
+
+pub type ReqwestUrl = reqwest::Url;
 
 pub trait Url {
     fn host(&self) -> Option<&str>;
@@ -16,8 +18,21 @@ impl Url for ReqwestUrl{
     }
 }
 
+#[derive(Error, Debug)]
+#[error("Invalid Url: {0}")]
 pub struct ParseError(String);
 
 pub trait UrlParser<T: Url> {
     fn parse(url: String) -> Result<T, ParseError>;
+}
+
+pub struct ReqwestParser;
+
+impl UrlParser<ReqwestUrl> for ReqwestParser {
+    fn parse(url: String) -> Result<ReqwestUrl, ParseError> {
+        match ReqwestUrl::parse(url.as_str()) {
+            Ok(valid) => Ok(valid),
+            Err(err) => Err(ParseError(err.to_string()))
+        }
+    }
 }

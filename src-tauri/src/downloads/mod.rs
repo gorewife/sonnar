@@ -26,6 +26,8 @@ pub enum DownloadError {
     FileWriteError(String, String),
     #[error("Internal Error: {0}")]
     InternalError(String),
+    #[error(transparent)]
+    UrlParseError(#[from] ParseError),
 }
 
 
@@ -76,6 +78,6 @@ pub trait DownloadFacade<P, U>
         U: Url
 {
     async fn get_download_info(&mut self, link: String) -> Result<DownloadInfo, DownloadError>;
-    fn early_download_cancel(&mut self, id: u64) -> Result<(), ParseError>;
+    fn early_download_cancel(&mut self, id: u64) -> bool;
     async fn start_download(&mut self, id: u64, chan: Channel<DownloadEvent>) -> Result<(), DownloadError>;
 }
