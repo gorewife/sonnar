@@ -1,11 +1,11 @@
-use std::collections::HashMap;
 use std::path::Path;
 use std::io::Result as IoResult;
+use std::sync::Arc;
+use dashmap::DashMap;
 use futures_lite::stream::StreamExt;
 use reqwest::{
     Client, 
     Response,
-    Url as ReqwestUrl,
 };
 use tokio::{
     fs::OpenOptions,
@@ -21,18 +21,21 @@ use super::{
     DownloadInfo,
 };
 
-use crate::util::url::Url;
+use crate::util::url::{
+    Url, 
+    ReqwestUrl,
+};
 
 pub struct Prototype {
     client: Client,
-    cache: HashMap<u64, Download<Response>>,
+    cache: Arc<DashMap<u64, Download<Response>>>,
 }
 
 impl  Prototype {
     fn new() ->  Self {
         Prototype {
             client: Client::new(),
-            cache: HashMap::new(),
+            cache: Arc::from(DashMap::new()),
         }
     }
 
@@ -84,7 +87,7 @@ impl  Downloader<ReqwestUrl> for Prototype {
 
         let cached_download = self.cache.remove(&id);
 
-        if let Some(download) = cached_download {
+        if let Some((_, download)) = cached_download {
             let Download{source, ..} = download;
             match file_open {
                 Ok(mut file) => {
@@ -115,7 +118,7 @@ impl  Downloader<ReqwestUrl> for Prototype {
                 Err(err) => Err(DownloadError::FileNotCreated(path.to_string_lossy().to_string(), err))
             }
         } else {
-            Err(DownloadError::InternalError(String::from("La respuesta de la solicitud {id} no se guardó en el.hashmap de caché")))
+            Err(DownloadError::InternalError(String::from("La respuesta de la solicitud {id} no se guardó en el hashmap de caché")))
         }
     }
 
