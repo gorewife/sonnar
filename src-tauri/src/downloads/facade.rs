@@ -1,5 +1,11 @@
 use std::path::Path;
-use tauri::ipc::Channel;
+
+use tokio::sync::Mutex;
+use tauri::{
+    ipc::Channel,
+    State,
+    command,
+};
 use dashmap::DashMap;
 use crate::util::url::{
     Url,
@@ -56,4 +62,27 @@ impl DownloadFacade<ReqwestParser, ReqwestUrl> for Facade {
                 None => Err(DownloadError::InternalError(String::from("The download isn't cached"))),
             }
         }
+}
+
+//hanlder
+#[command]
+async fn get_download_info(facade: &State<'_, Mutex<Facade>>, link: String) -> Result<DownloadInfo, DownloadError> {
+    facade.lock()
+        .await
+        .get_download_info(link).await
+}
+
+#[command]
+fn early_download_cancel(facade: &State<'_, Mutex<Facade>>, id: u64) -> bool {
+    facade.blocking_lock()
+        .early_download_cancel(id)
+}
+
+#[command]
+async fn start_download(facade: &State<'_, Mutex<Facade>>, id: u64, path_string: String, chan: Channel<DownloadEvent>) -> Result<(), DownloadError> {
+     let path = Path::new(&path_string);
+     facade.lock()
+         .await
+         .start_download(id, path, chan)
+         .await
 }
