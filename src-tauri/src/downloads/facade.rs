@@ -34,6 +34,15 @@ enum Choice {
     Prototype,
 }
 
+impl Facade {
+    pub fn new() -> Self {
+        Self {
+            prototype_downloader: Prototype::new(),
+            cache: DashMap::new(),
+        }
+    }
+}
+
 impl DownloadFacade<ReqwestParser, ReqwestUrl> for Facade {
         async fn get_download_info(&mut self, link: String) -> Result<DownloadInfo, DownloadError> {
             match ReqwestParser::parse(link) {
@@ -66,20 +75,21 @@ impl DownloadFacade<ReqwestParser, ReqwestUrl> for Facade {
 
 //hanlder
 #[command]
-async fn get_download_info(facade: &State<'_, Mutex<Facade>>, link: String) -> Result<DownloadInfo, DownloadError> {
+pub async fn get_download_info(facade: State<'_, Mutex<Facade>>, link: String) -> Result<DownloadInfo, DownloadError> {
     facade.lock()
         .await
         .get_download_info(link).await
 }
 
 #[command]
-fn early_download_cancel(facade: &State<'_, Mutex<Facade>>, id: u64) -> bool {
+#[allow(clippy::needless_pass_by_value)]
+pub fn early_download_cancel(facade: State<'_, Mutex<Facade>>, id: u64) -> bool {
     facade.blocking_lock()
         .early_download_cancel(id)
 }
 
 #[command]
-async fn start_download(facade: &State<'_, Mutex<Facade>>, id: u64, path_string: String, chan: Channel<DownloadEvent>) -> Result<(), DownloadError> {
+pub async fn start_download(facade: State<'_, Mutex<Facade>>, id: u64, path_string: String, chan: Channel<DownloadEvent>) -> Result<(), DownloadError> {
      let path = Path::new(&path_string);
      facade.lock()
          .await

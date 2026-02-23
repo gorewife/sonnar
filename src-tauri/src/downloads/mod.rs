@@ -11,7 +11,7 @@ use crate::util::url::{
 };
 
 mod prototype;
-mod facade;
+pub mod facade;
 
 #[derive(Error, Debug)]
 pub enum DownloadError {
@@ -29,6 +29,15 @@ pub enum DownloadError {
     InternalError(String),
     #[error(transparent)]
     UrlParseError(#[from] ParseError),
+}
+
+impl serde::Serialize for DownloadError {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::Serializer,
+     {
+        serializer.serialize_str(self.to_string().as_ref())
+     }
 }
 
 

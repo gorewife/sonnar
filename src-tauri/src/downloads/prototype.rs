@@ -32,7 +32,7 @@ pub struct Prototype {
 }
 
 impl  Prototype {
-    fn new() ->  Self {
+    pub fn new() ->  Self {
         Prototype {
             client: Client::new(),
             cache: Arc::from(DashMap::new()),
