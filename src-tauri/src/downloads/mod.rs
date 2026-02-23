@@ -11,6 +11,7 @@ use crate::util::url::{
 };
 
 mod prototype;
+mod facade;
 
 #[derive(Error, Debug)]
 pub enum DownloadError {
@@ -79,5 +80,5 @@ pub trait DownloadFacade<P, U>
 {
     async fn get_download_info(&mut self, link: String) -> Result<DownloadInfo, DownloadError>;
     fn early_download_cancel(&mut self, id: u64) -> bool;
-    async fn start_download(&mut self, id: u64, chan: Channel<DownloadEvent>) -> Result<(), DownloadError>;
+    async fn start_download(&mut self, id: u64, path: &Path, chan: Channel<DownloadEvent>) -> Result<(), DownloadError>;
 }
