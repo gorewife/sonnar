@@ -2,25 +2,26 @@
 import { useUIStore } from '@/stores/UIStore'
 
 import Sidebar from '@/components/Sidebar.vue'
+import TitleBar from '@/components/TitleBar.vue';
 import DownloadModal from '@/components/modals/DownloadModal.vue'
 
 const ui = useUIStore()
 </script>
 
 <template>
-  <main class="container">
+  <div class="window">
+    <TitleBar />
+
     <div class="app-layout">
-      <!-- Sidebar -->
       <aside class="sidebar">
         <Sidebar />
       </aside>
 
-      <!-- Content -->
       <section class="content">
         <h1>Sonnar</h1>
       </section>
     </div>
-  </main>
+  </div>
 
   <!-- Modal -->
   <Teleport to="body">
