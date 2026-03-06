@@ -1,29 +1,24 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { open } from '@tauri-apps/plugin-dialog'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useUIStore } from '@/stores/UIStore'
+import { useDownloadsStore } from '@/stores/DownloadsStore'
 
 const ui = useUIStore()
+const downloads = useDownloadsStore()
 
 const downloadLink = ref('')
-const downloadDir = ref('')
-
-// load saved download directory
-onMounted(() => {
-  const saved = localStorage.getItem('downloadDir')
-  if (saved) downloadDir.value = saved
-})
 
 // reset link when modal opens
-watch(() => ui.activeModal, (newVal) => {
-  if (newVal === 'download') downloadLink.value = ''
+watchEffect(() => {
+  if (ui.isOpen('download')) downloadLink.value = ''
 })
 
 async function chooseDir() {
   const path = await open({ directory: true })
-  if (path) {
-    downloadDir.value = path
-    localStorage.setItem('downloadDir', path)
+  if (typeof path === 'string') {
+    downloads.setDownloadDir(path)
   }
 }
 
