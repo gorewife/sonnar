@@ -34,11 +34,9 @@ function cancel() {
 function enter() {
   if (!downloadLink.value) return
 
-  console.log('Download submitted:', downloadLink.value)
   // TODO: call downloads store / trigger actual download here
 
   ui.closeModal()
-  downloadLink.value = '' // reset
 }
 </script>
 
