@@ -16,7 +16,7 @@ const ui = useUIStore()
 
 <style scoped>
 .add-btn:hover {
-  filter: drop-shadow(1px 1px 1em #747bff);
+  filter: drop-shadow(1px 1px 1em var(--color-highlight));
 }
 
 .set-btn {
