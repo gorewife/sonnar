@@ -21,7 +21,6 @@ export const useUIStore = defineStore('ui', () => {
     activeModal.value === name
 
   return {
-    activeModal,
     modalProps,
     openModal,
     closeModal,
