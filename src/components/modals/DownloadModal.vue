@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
+// error is shown inline in the modal; cleared on next open
 import { open } from '@tauri-apps/plugin-dialog'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useUIStore } from '@/stores/UIStore'
@@ -9,10 +10,14 @@ const ui = useUIStore()
 const downloads = useDownloadsStore()
 
 const downloadLink = ref('')
+const error = ref('')
 
-// reset link when modal opens
+// reset on open
 watchEffect(() => {
-  if (ui.isOpen('download')) downloadLink.value = ''
+  if (ui.isOpen('download')) {
+    downloadLink.value = ''
+    error.value = ''
+  }
 })
 
 async function chooseDir() {
@@ -26,12 +31,16 @@ function cancel() {
   ui.closeModal()
 }
 
-function enter() {
+async function enter() {
   if (!downloadLink.value) return
+  error.value = ''
 
-  // TODO: call downloads store / trigger actual download here
-
-  ui.closeModal()
+  try {
+    await downloads.addDownload(downloadLink.value)
+    ui.closeModal()
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : String(err)
+  }
 }
 </script>
 
@@ -46,9 +55,11 @@ function enter() {
         <section class="modal-body">
           <input v-model="downloadLink" placeholder="Download Link..." @keyup.enter="enter" />
           <button @click="chooseDir" title="Select a directory">
-            <font-awesome-icon icon="folder" />
+            <FontAwesomeIcon icon="folder" />
           </button>
         </section>
+
+        <p v-if="error" class="modal-error">{{ error }}</p>
 
         <footer class="modal-footer">
           <button @click="cancel">Cancel</button>
