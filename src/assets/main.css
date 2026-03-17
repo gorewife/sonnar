@@ -67,6 +67,13 @@ body {
   padding: 1.5rem;
 }
 
+.modal-error {
+  margin: 0.5rem 0 0;
+  font-size: 0.85em;
+  color: #ff7c72;
+  opacity: 0.85;
+}
+
 /* links & highlights */
 a {
   font-weight: 500;
