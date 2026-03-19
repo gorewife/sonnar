@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { ref, watch } from 'vue'
 // error is shown inline in the modal; cleared on next open
 import { open } from "@tauri-apps/plugin-dialog";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -12,6 +11,7 @@ const downloads = useDownloadsStore();
 
 const downloadLink = ref("");
 const error = ref("");
+const errorDetails = ref("");
 
 // reset on open
 watch(
@@ -20,15 +20,10 @@ watch(
         if (isOpen) {
             downloadLink.value = "";
             error.value = "";
+            errorDetails.value = "";
         }
     },
 );
-watch(() => ui.isOpen('download'), (isOpen) => {
-  if (isOpen) {
-    downloadLink.value = ''
-    error.value = ''
-  }
-})
 
 async function chooseDir() {
     const path = await open({ directory: true });
@@ -41,9 +36,14 @@ function cancel() {
     ui.closeModal();
 }
 
+function copyDetails() {
+    navigator.clipboard.writeText(errorDetails.value);
+}
+
 async function enter() {
     if (!downloadLink.value) return;
     error.value = "";
+    errorDetails.value = "";
 
     try {
         await downloads.addDownload(downloadLink.value);
@@ -51,6 +51,7 @@ async function enter() {
     } catch (err) {
         console.error("[sonnar] addDownload failed:", err);
         error.value = "Couldn't start the download. Please try again.";
+        errorDetails.value = err instanceof Error ? err.message : String(err);
     }
 }
 </script>
@@ -78,7 +79,10 @@ async function enter() {
                     </button>
                 </section>
 
-                <p v-if="error" class="modal-error">{{ error }}</p>
+                <p v-if="error" class="modal-error">
+                    {{ error }}
+                    <button class="copy-details" @click="copyDetails">copy details</button>
+                </p>
 
                 <footer class="modal-footer">
                     <button @click="cancel">Cancel</button>
@@ -90,3 +94,19 @@ async function enter() {
         </div>
     </Transition>
 </template>
+
+<style scoped>
+.copy-details {
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    letter-spacing: 0;
+    opacity: 0.5;
+    text-transform: none;
+}
+
+.copy-details:hover {
+    opacity: 1;
+    border: none;
+}
+</style>
