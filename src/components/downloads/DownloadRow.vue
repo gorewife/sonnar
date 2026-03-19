@@ -12,7 +12,7 @@ const progress = computed(() => {
 </script>
 
 <template>
-    <div class="row" :data-status="download.status">
+    <div :class="['row', `is-${download.status}`]">
         <div class="row-body">
             <span class="row-name">{{ download.info.default_name }}</span>
             <span class="row-meta">
@@ -27,21 +27,6 @@ const progress = computed(() => {
                 </template>
             </span>
         </div>
-  <div :class="['row', `is-${download.status}`]">
-    <div class="row-body">
-      <span class="row-name">{{ download.info.default_name }}</span>
-      <span class="row-meta">
-        <template v-if="download.status === 'downloading'">
-          {{ progress != null ? `${progress}%` : '···' }}
-        </template>
-        <template v-else-if="download.status === 'error'">
-          {{ download.error }}
-        </template>
-        <template v-else-if="download.status === 'finished'">
-          done
-        </template>
-      </span>
-    </div>
 
         <div class="row-line">
             <div
@@ -59,10 +44,8 @@ const progress = computed(() => {
     flex-direction: column;
 }
 
-.row[data-status="finished"] .row-name {
-    opacity: 0.35;
 .row.is-finished .row-name {
-  opacity: 0.35;
+    opacity: 0.35;
 }
 
 .row-body {
@@ -88,22 +71,14 @@ const progress = computed(() => {
     opacity: 0.7;
 }
 
-.row[data-status="error"] .row-meta {
+.row.is-error .row-meta {
     color: var(--color-text);
     opacity: 0.6;
 }
 
-.row[data-status="finished"] .row-meta {
+.row.is-finished .row-meta {
     color: var(--color-text);
     opacity: 0.25;
-.row.is-error .row-meta {
-  color: var(--color-text);
-  opacity: 0.6;
-}
-
-.row.is-finished .row-meta {
-  color: var(--color-text);
-  opacity: 0.25;
 }
 
 /* separator that doubles as progress bar */
