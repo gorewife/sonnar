@@ -1,173 +1,173 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap");
 
 :root {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 13px;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 400;
 
-  --color-bg: #0b1117;
-  --color-text: #ff7c72;
-  --color-highlight: #79c0ff;
-  --color-border: #1f2a37;
-  --color-surface: #0f141b;
-  --color-highlight-faint: rgba(121, 192, 255, 0.45);
-  --color-bg-overlay: rgba(11, 17, 23, 0.92);
+    --color-bg: #0b1117;
+    --color-text: #ff7c72;
+    --color-highlight: #79c0ff;
+    --color-border: #1f2a37;
+    --color-surface: #0f141b;
+    --color-highlight-faint: rgba(121, 192, 255, 0.45);
+    --color-bg-overlay: rgba(11, 17, 23, 0.92);
 
-  color: var(--color-text);
-  background-color: var(--color-bg);
+    color: var(--color-text);
+    background-color: var(--color-bg);
 
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 .container {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 /* Clears the macOS traffic light buttons (close/min/max).
    32px matches the standard macOS title bar height.
    data-tauri-drag-region on this element makes the window draggable. */
 .titlebar {
-  height: 32px;
-  flex-shrink: 0;
-  border-bottom: 1px solid var(--color-border);
+    height: 32px;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .app-layout {
-  display: flex;
-  flex: 1;
-  min-height: 0;
+    display: flex;
+    flex: 1;
+    min-height: 0;
 }
 
 .content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
 }
 
 .sidebar {
-  width: 56px;
-  background-color: var(--color-surface);
-  border-right: 1px solid var(--color-border);
-  display: flex;
-  flex-shrink: 0;
+    width: 56px;
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-shrink: 0;
 }
 
 /* ── Modals ─────────────────────────────────────────── */
 
 .modal-backdrop {
-  display: grid;
-  place-items: center;
-  z-index: 1000;
-  position: fixed;
-  inset: 0;
-  background: var(--color-bg-overlay);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    position: fixed;
+    inset: 0;
+    background: var(--color-bg-overlay);
 }
 
 .modal-dialog {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  padding: 1.75rem;
-  min-width: 400px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 1.75rem;
+    min-width: 400px;
 }
 
 .modal-header h3 {
-  margin: 0 0 1.5rem;
-  font-size: 0.7em;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  opacity: 0.4;
+    margin: 0 0 1.5rem;
+    font-size: 0.7em;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.4;
 }
 
 .modal-body {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 }
 
 .modal-body input {
-  flex: 1;
+    flex: 1;
 }
 
 .modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
 }
 
 .modal-error {
-  margin: 0.75rem 0 0;
-  font-size: 0.8em;
-  opacity: 0.7;
+    margin: 0.75rem 0 0;
+    font-size: 0.8em;
+    opacity: 0.7;
 }
 
 /* ── Base elements ──────────────────────────────────── */
 
 a {
-  color: var(--color-highlight);
-  text-decoration: none;
+    color: var(--color-highlight);
+    text-decoration: none;
 }
 
 input,
 button {
-  border: 1px solid var(--color-border);
-  padding: 0.5em 1em;
-  font-size: 0.85em;
-  font-family: inherit;
-  color: var(--color-text);
-  background: transparent;
-  border-radius: 0;
-  outline: none;
-  transition: border-color 0.15s;
+    border: 1px solid var(--color-border);
+    padding: 0.5em 1em;
+    font-size: 0.85em;
+    font-family: inherit;
+    color: var(--color-text);
+    background: transparent;
+    border-radius: 0;
+    outline: none;
+    transition: border-color 0.15s;
 }
 
 button {
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.7em;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.7em;
 }
 
 button:hover {
-  border-color: var(--color-highlight);
+    border-color: var(--color-highlight);
 }
 
 button:disabled {
-  opacity: 0.2;
-  cursor: not-allowed;
-  pointer-events: none;
+    opacity: 0.2;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 input::placeholder {
-  opacity: 0.25;
+    opacity: 0.25;
 }
 
 input:focus {
-  border-color: var(--color-highlight-faint);
+    border-color: var(--color-highlight-faint);
 }
 
 /* ── Modal transition ───────────────────────────────── */
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.1s ease;
+    transition: opacity 0.1s ease;
 }
 
 .modal-enter-from,
 .modal-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
