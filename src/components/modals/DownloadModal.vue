@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import { ref, watch } from 'vue'
 // error is shown inline in the modal; cleared on next open
 import { open } from "@tauri-apps/plugin-dialog";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -22,6 +23,12 @@ watch(
         }
     },
 );
+watch(() => ui.isOpen('download'), (isOpen) => {
+  if (isOpen) {
+    downloadLink.value = ''
+    error.value = ''
+  }
+})
 
 async function chooseDir() {
     const path = await open({ directory: true });
