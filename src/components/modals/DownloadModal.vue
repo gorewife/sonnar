@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { ref, watch } from 'vue'
 // error is shown inline in the modal; cleared on next open
 import { open } from '@tauri-apps/plugin-dialog'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -13,8 +13,8 @@ const downloadLink = ref('')
 const error = ref('')
 
 // reset on open
-watchEffect(() => {
-  if (ui.isOpen('download')) {
+watch(() => ui.isOpen('download'), (isOpen) => {
+  if (isOpen) {
     downloadLink.value = ''
     error.value = ''
   }

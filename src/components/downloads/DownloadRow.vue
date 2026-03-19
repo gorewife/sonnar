@@ -12,7 +12,7 @@ const progress = computed(() => {
 </script>
 
 <template>
-  <div class="row" :data-status="download.status">
+  <div :class="['row', `is-${download.status}`]">
     <div class="row-body">
       <span class="row-name">{{ download.info.default_name }}</span>
       <span class="row-meta">
@@ -40,7 +40,7 @@ const progress = computed(() => {
   flex-direction: column;
 }
 
-.row[data-status="finished"] .row-name {
+.row.is-finished .row-name {
   opacity: 0.35;
 }
 
@@ -67,12 +67,12 @@ const progress = computed(() => {
   opacity: 0.7;
 }
 
-.row[data-status="error"] .row-meta {
+.row.is-error .row-meta {
   color: var(--color-text);
   opacity: 0.6;
 }
 
-.row[data-status="finished"] .row-meta {
+.row.is-finished .row-meta {
   color: var(--color-text);
   opacity: 0.25;
 }
