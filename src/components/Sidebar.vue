@@ -23,15 +23,27 @@ const ui = useUIStore()
   flex-direction: column;
   align-items: center;
   flex: 1;
-  padding-top: 1rem;
+  padding: 1rem 0;
 }
 
-.add-btn:hover {
-  filter: drop-shadow(1px 1px 1em var(--color-highlight));
+.sidebar-nav button {
+  border: none;
+  background: transparent;
+  padding: 0.6rem;
+  font-size: 1em;
+  opacity: 0.35;
+  transition: opacity 0.15s;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.sidebar-nav button:hover {
+  border: none;
+  opacity: 1;
 }
 
 .set-btn {
   margin-top: auto;
-  margin-bottom: 2vh;
+  margin-bottom: 1rem;
 }
 </style>
