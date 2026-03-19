@@ -69,8 +69,7 @@ export const useDownloadsStore = defineStore('downloads', () => {
 
   async function cancelDownload(id: number) {
     await invoke<boolean>('early_download_cancel', { id })
-    const index = downloads.value.findIndex(d => d.info.id === id)
-    if (index !== -1) downloads.value.splice(index, 1)
+    downloads.value = downloads.value.filter(d => d.info.id !== id)
   }
 
   return {
