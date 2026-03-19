@@ -11,6 +11,8 @@
   --color-highlight: #79c0ff;
   --color-border: #1f2a37;
   --color-surface: #0f141b;
+  --color-highlight-faint: rgba(121, 192, 255, 0.45);
+  --color-bg-overlay: rgba(11, 17, 23, 0.92);
 
   color: var(--color-text);
   background-color: var(--color-bg);
@@ -71,7 +73,7 @@ body {
   z-index: 1000;
   position: fixed;
   inset: 0;
-  background: rgba(11, 17, 23, 0.92);
+  background: var(--color-bg-overlay);
 }
 
 .modal-dialog {
@@ -155,7 +157,7 @@ input::placeholder {
 }
 
 input:focus {
-  border-color: rgba(121, 192, 255, 0.45);
+  border-color: var(--color-highlight-faint);
 }
 
 /* ── Modal transition ───────────────────────────────── */
