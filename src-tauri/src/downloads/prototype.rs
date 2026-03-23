@@ -6,12 +6,17 @@ use futures_lite::stream::StreamExt;
 use reqwest::{
     Client, 
     Response,
+    header::{
+        CONTENT_TYPE,
+        CONTENT_DISPOSITION,
+    },
 };
 use tokio::{
     fs::OpenOptions,
     io::AsyncWriteExt,
 };
 use tauri::ipc::Channel;
+use regex::Regex;
 
 use super::{
     Downloader,
@@ -39,8 +44,17 @@ impl  Prototype {
         }
     }
 
-    fn get_file_name(_res: &Response) -> String {
-        "file".to_owned()
+    fn get_file_name(res: &Response) -> String {
+        let content_disposition = res.headers()
+                .get(CONTENT_DISPOSITION);
+        if let Some(header) = content_disposition {
+            let filename_regex = Regex::new(r"\s*attachment\s*;\s*gilename=(.*);.*").unwrap();
+            if let Some(capture) = filename_regex.captures(header.to_str().unwrap_or("unknown")) {
+                    return capture[0].to_owned();
+            }
+        }
+
+        String::from("download.bin")
     }
 }
 
