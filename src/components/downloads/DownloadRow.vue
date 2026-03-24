@@ -1,97 +1,123 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import type { ActiveDownload } from "@/types/downloads";
+import { useDownloadsStore } from "@/stores/DownloadsStore";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 const { download } = defineProps<{ download: ActiveDownload }>();
+const downloads = useDownloadsStore();
 
 const progress = computed(() => {
     const total = download.info.total_bytes;
     if (!total) return null;
     return Math.round((download.currentByte / total) * 100);
 });
+
+const formattedSize = computed(() => {
+    const total = download.info.total_bytes;
+    if (!total) return "—";
+    if (total < 1024 * 1024) return `${(total / 1024).toFixed(1)} KB`;
+    if (total < 1024 * 1024 * 1024)
+        return `${(total / 1024 / 1024).toFixed(1)} MB`;
+    return `${(total / 1024 / 1024 / 1024).toFixed(2)} GB`;
+});
+
+const fileIcon = computed(() => {
+    const name = download.info.default_name.toLowerCase();
+    if (/\.(mp4|mkv|avi|mov|webm)$/.test(name)) return "movie";
+    if (/\.(mp3|flac|wav|aac|ogg)$/.test(name)) return "music_note";
+    if (/\.(zip|tar|gz|rar|7z)$/.test(name)) return "folder_zip";
+    if (/\.(jpg|jpeg|png|gif|webp|svg)$/.test(name)) return "image";
+    if (/\.(pdf)$/.test(name)) return "picture_as_pdf";
+    if (/\.(exe|dmg|pkg|deb|appimage)$/.test(name)) return "install_desktop";
+    return "draft";
+});
+
+const badgeVariant = computed(() => {
+    if (download.status === "error") return "destructive" as const;
+    if (download.status === "finished") return "secondary" as const;
+    return "outline" as const;
+});
 </script>
 
 <template>
-    <div :class="['row', `is-${download.status}`]">
-        <div class="row-body">
-            <span class="row-name">{{ download.info.default_name }}</span>
-            <span class="row-meta">
-                <template v-if="download.status === 'downloading'">
-                    {{ progress != null ? `${progress}%` : "···" }}
-                </template>
-                <template v-else-if="download.status === 'error'">
-                    {{ download.error }}
-                </template>
-                <template v-else-if="download.status === 'finished'">
-                    done
-                </template>
-            </span>
+    <div
+        class="flex items-center gap-4 px-4 py-3 rounded-lg border border-border bg-card hover:bg-accent/30 transition-colors"
+        :class="{ 'opacity-40': download.status === 'finished' }"
+    >
+        <!-- File type icon -->
+        <span
+            class="icon text-base shrink-0"
+            :class="
+                download.status === 'error'
+                    ? 'text-destructive'
+                    : 'text-muted-foreground'
+            "
+        >
+            {{ download.status === "error" ? "error_outline" : fileIcon }}
+        </span>
+
+        <!-- Name + progress -->
+        <div class="flex-1 min-w-0">
+            <p
+                class="text-base font-medium text-foreground truncate leading-snug"
+            >
+                {{ download.info.default_name }}
+            </p>
+            <Progress
+                v-if="download.status === 'downloading'"
+                :model-value="progress ?? 0"
+                class="h-0.5 mt-1.5 bg-border"
+            />
+            <p
+                v-else-if="download.status === 'error'"
+                class="text-xs text-destructive mt-0.5 truncate"
+            >
+                {{ download.error }}
+            </p>
         </div>
 
-        <div class="row-line">
-            <div
+        <!-- File size -->
+        <span class="text-xs text-muted-foreground shrink-0 tabular-nums">
+            {{ formattedSize }}
+        </span>
+
+        <!-- Progress % -->
+        <span
+            v-if="download.status === 'downloading'"
+            class="text-xs text-muted-foreground shrink-0 tabular-nums w-8 text-right"
+        >
+            {{ progress != null ? `${progress}%` : "···" }}
+        </span>
+
+        <!-- Status badge -->
+        <Badge :variant="badgeVariant" class="text-2xs shrink-0">
+            {{ download.status }}
+        </Badge>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-0.5 shrink-0">
+            <Button
                 v-if="download.status === 'downloading'"
-                class="row-line-fill"
-                :style="{ width: `${progress ?? 0}%` }"
-            />
+                variant="ghost"
+                size="icon"
+                class="size-6"
+                title="Pause"
+            >
+                <span class="icon text-sm">pause</span>
+            </Button>
+            <Button
+                v-if="download.status !== 'finished'"
+                variant="ghost"
+                size="icon"
+                class="size-6 hover:text-destructive hover:bg-destructive/10"
+                title="Cancel"
+                @click="downloads.cancelDownload(download.info.id)"
+            >
+                <span class="icon text-sm">close</span>
+            </Button>
         </div>
     </div>
 </template>
-
-<style scoped>
-.row {
-    display: flex;
-    flex-direction: column;
-}
-
-.row.is-finished .row-name {
-    opacity: 0.35;
-}
-
-.row-body {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 2rem;
-    padding: 0.875rem 0;
-}
-
-.row-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    min-width: 0;
-    flex: 1;
-}
-
-.row-meta {
-    font-size: 0.8em;
-    flex-shrink: 0;
-    color: var(--color-highlight);
-    opacity: 0.7;
-}
-
-.row.is-error .row-meta {
-    color: var(--color-text);
-    opacity: 0.6;
-}
-
-.row.is-finished .row-meta {
-    color: var(--color-text);
-    opacity: 0.25;
-}
-
-/* separator that doubles as progress bar */
-.row-line {
-    height: 1px;
-    background: var(--color-border);
-    position: relative;
-}
-
-.row-line-fill {
-    position: absolute;
-    inset: 0;
-    background: var(--color-highlight);
-    transition: width 0.1s linear;
-}
-</style>
