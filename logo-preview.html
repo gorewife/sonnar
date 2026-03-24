@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+  body {
+    background: oklch(0.08 0.004 264);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    gap: 56px;
+    font-family: Inter, sans-serif;
+  }
+  .row { display: flex; align-items: center; gap: 56px; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .label { color: oklch(0.35 0.008 264); font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; }
+  .wordmark { display: flex; align-items: center; }
+  .wordmark span { color: white; font-size: 15px; font-weight: 600; letter-spacing: -0.02em; }
+  .divider { width: 1px; height: 48px; background: oklch(1 0 0 / 7%); }
+  h2 { color: oklch(0.28 0.006 264); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 400; margin: 0; }
+</style>
+</head>
+<body>
+
+<h2>wordmark — gap + capitalisation</h2>
+
+<div class="row">
+
+  <!-- Current -->
+  <div class="cell">
+    <div class="label">current</div>
+    <div class="wordmark" style="gap: 9px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path fill-rule="evenodd"
+          d="M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 Z M15 4.5 A7.5 7.5 0 1 0 15 19.5 A7.5 7.5 0 1 0 15 4.5 Z"
+          fill="oklch(0.75 0.15 145)"/>
+        <circle cx="15" cy="12" r="1.5" fill="oklch(0.75 0.15 145)" opacity="0.45"/>
+      </svg>
+      <span>ophelia</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Tighter gap -->
+  <div class="cell">
+    <div class="label">gap 6px</div>
+    <div class="wordmark" style="gap: 6px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path fill-rule="evenodd"
+          d="M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 Z M15 4.5 A7.5 7.5 0 1 0 15 19.5 A7.5 7.5 0 1 0 15 4.5 Z"
+          fill="oklch(0.75 0.15 145)"/>
+        <circle cx="15" cy="12" r="1.5" fill="oklch(0.75 0.15 145)" opacity="0.45"/>
+      </svg>
+      <span>ophelia</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Capital O, current gap -->
+  <div class="cell">
+    <div class="label">cap O, gap 9px</div>
+    <div class="wordmark" style="gap: 9px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path fill-rule="evenodd"
+          d="M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 Z M15 4.5 A7.5 7.5 0 1 0 15 19.5 A7.5 7.5 0 1 0 15 4.5 Z"
+          fill="oklch(0.75 0.15 145)"/>
+        <circle cx="15" cy="12" r="1.5" fill="oklch(0.75 0.15 145)" opacity="0.45"/>
+      </svg>
+      <span>Ophelia</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Capital O, tighter gap -->
+  <div class="cell">
+    <div class="label">cap O, gap 6px</div>
+    <div class="wordmark" style="gap: 6px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path fill-rule="evenodd"
+          d="M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 Z M15 4.5 A7.5 7.5 0 1 0 15 19.5 A7.5 7.5 0 1 0 15 4.5 Z"
+          fill="oklch(0.75 0.15 145)"/>
+        <circle cx="15" cy="12" r="1.5" fill="oklch(0.75 0.15 145)" opacity="0.45"/>
+      </svg>
+      <span>Ophelia</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Also show at larger size for detail -->
+<div class="row">
+  <div class="cell">
+    <div class="wordmark" style="gap: 12px;">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+        <path fill-rule="evenodd"
+          d="M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 Z M15 4.5 A7.5 7.5 0 1 0 15 19.5 A7.5 7.5 0 1 0 15 4.5 Z"
+          fill="oklch(0.75 0.15 145)"/>
+        <circle cx="15" cy="12" r="1.5" fill="oklch(0.75 0.15 145)" opacity="0.45"/>
+      </svg>
+      <span style="font-size: 22px;">ophelia</span>
+    </div>
+    <div class="label">lowercase · large</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="cell">
+    <div class="wordmark" style="gap: 12px;">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+        <path fill-rule="evenodd"
+          d="M12 3 A9 9 0 1 0 12 21 A9 9 0 1 0 12 3 Z M15 4.5 A7.5 7.5 0 1 0 15 19.5 A7.5 7.5 0 1 0 15 4.5 Z"
+          fill="oklch(0.75 0.15 145)"/>
+        <circle cx="15" cy="12" r="1.5" fill="oklch(0.75 0.15 145)" opacity="0.45"/>
+      </svg>
+      <span style="font-size: 22px;">Ophelia</span>
+    </div>
+    <div class="label">cap O · large</div>
+  </div>
+</div>
+
+</body>
+</html>
